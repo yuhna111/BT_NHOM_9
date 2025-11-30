@@ -17,7 +17,7 @@ public class GiaoDich {
     private LocalDateTime thoiGianVao;
     private LocalDateTime thoiGianRa;
     private double phiDoXe;
-    private String trangThaiThanhToan; // "CHUA_THANH_TOAN","DA_THANH_TOAN"
+    private String trangThaiThanhToan; 
     private BangGia bangGia;
     private PhuongTien phuongTien;
     private TheXe theXe;
@@ -107,10 +107,10 @@ public class GiaoDich {
     }
 
     public ViTriDo getViTriDo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     public void setViTriDo(ViTriDo viTriHienTai) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 }
