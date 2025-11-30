@@ -30,7 +30,7 @@ public class GiaoDichServiceImpl implements GiaoDichService {
     private final BangGiaRepo bangGiaRepo = new BangGiaDao() {
         @Override
         public boolean update(BangGia bangGia) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            throw new UnsupportedOperationException("Not supported yet."); 
         }
     };
     private final PhuongTienRepo phuongTienRepo = new PhuongTienDao();
@@ -93,3 +93,4 @@ public class GiaoDichServiceImpl implements GiaoDichService {
         return null; 
     }
 }
+
