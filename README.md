@@ -1,8 +1,7 @@
-# 🅿️ HỆ THỐNG QUẢN LÝ BÃI ĐỖ XE THÔNG MINH
+# 🅿️ HỆ THỐNG QUẢN LÝ BÃI ĐỖ XE 
 
 
 
-[Image of the Entity Relationship Diagram for a parking system]
 
 
 ## 📝 GIỚI THIỆU DỰ ÁN (Project Overview)
