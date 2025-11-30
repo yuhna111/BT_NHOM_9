@@ -72,7 +72,6 @@ public class MockGiaoDichService {
         GiaoDich gdToRemove = null;
         for (GiaoDich gd : mockGiaoDichList) {
             if (gd.getMaGiaoDich().equals(maGiaoDich) && gd.getThoiGianRa() != null) {
-                // ✅ DÒNG ĐÃ SỬA: Thay thế gd.thanhToan() bằng setter
                 gd.setTrangThaiThanhToan("DA_THANH_TOAN"); 
                 gdToRemove = gd;
                 break;
@@ -84,4 +83,5 @@ public class MockGiaoDichService {
         }
         return false;
     }
+
 }
