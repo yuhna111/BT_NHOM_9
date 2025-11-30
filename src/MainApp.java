@@ -1,4 +1,4 @@
-package Main; // ⚠️ Đảm bảo package này đúng với cấu trúc thư mục của bạn
+package Main; 
 
 import gui.LoginForm;
 import service.MockGiaoDichService;
@@ -21,4 +21,5 @@ public class MainApp {
             loginForm.setVisible(true);
         });
     }
+
 }
