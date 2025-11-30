@@ -24,7 +24,7 @@ public class Oto extends PhuongTien {
     @Override
     public double tinhKhauHao(long minutes) {
         double hours = Math.ceil(minutes / 60.0);
-        return 1.5 * hours; // ví dụ
+        return 1.5 * hours; 
     }
 
     public int getSoChoNgoi() {
