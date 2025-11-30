@@ -105,4 +105,12 @@ public class GiaoDich {
     public void setNhanVien(NhanVien nhanVien) {
         this.nhanVien = nhanVien;
     }
+
+    public ViTriDo getViTriDo() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public void setViTriDo(ViTriDo viTriHienTai) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

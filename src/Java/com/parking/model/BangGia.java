@@ -12,6 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BangGia {
+
+    public static void capNhatGiaTheoLoai(String loai, double gia) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     private String maMucGia;
     private String loaiPhuongTien; 
     private double giaTienCoBan; 

@@ -7,7 +7,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BangGiaDao implements BangGiaRepo {
+/**
+ *
+ * @author yuhna
+ */
+public abstract class BangGiaDao implements BangGiaRepo {
     private static final String SELECT_BY_ID_SQL = 
         "SELECT maMucGia, loaiPhuongTien, giaTienCoBan FROM BangGia WHERE maMucGia = ?";
     private static final String SELECT_ALL_SQL = 

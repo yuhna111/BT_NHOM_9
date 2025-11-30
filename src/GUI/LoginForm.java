@@ -1,11 +1,22 @@
 package gui;
 
+import com.parking.model.NhanVien;
+import service.GiaoDichService;
+import service.QuanTriService;
 import javax.swing.*;
 import java.awt.*;
+import service.MockGiaoDichService;
+import service.MockQuanTriService;
 
 public class LoginForm extends javax.swing.JFrame {
 
-    public LoginForm() {
+    private final MockGiaoDichService giaoDichService;
+    private final MockQuanTriService quanTriService; 
+    private final NhanVien mockNhanVien;
+    public LoginForm(MockGiaoDichService giaoDichService, MockQuanTriService quanTriService) {
+        this.giaoDichService = giaoDichService;
+        this.quanTriService = quanTriService;
+        this.mockNhanVien = new NhanVien("ND01", "nv1", "123", "NV01", "Ca Sáng"); 
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -26,43 +37,47 @@ public class LoginForm extends javax.swing.JFrame {
         txtUsername = new JTextField();
         txtUsername.setBounds(180, 100, 170, 25);
         txtUsername.setBorder(BorderFactory.createLineBorder(new Color(0x0057AD), 1));
+        txtUsername.setText("nv1");
 
         JLabel passLabel = new JLabel("Mật khẩu:");
         passLabel.setBounds(50, 140, 120, 25);
         txtPassword = new JPasswordField();
         txtPassword.setBounds(180, 140, 170, 25);
         txtPassword.setBorder(BorderFactory.createLineBorder(new Color(0x0057AD), 1));
+        txtPassword.setText("123");
 
+        JLabel roleLabel = new JLabel("Vai trò:");
+        roleLabel.setBounds(50, 180, 120, 25);
         cmbRole = new JComboBox<>(new String[]{"Nhân viên", "Quản trị viên"});
         cmbRole.setBounds(180, 180, 170, 25);
-        cmbRole.setBackground(Color.WHITE);
         cmbRole.setBorder(BorderFactory.createLineBorder(new Color(0x0057AD), 1));
 
-        btnLogin = new JButton("ĐĂNG NHẬP");
-        btnLogin.setBounds(80, 230, 120, 35);
-        btnLogin.setBackground(new Color(0xFBDA0C));
-        btnLogin.setForeground(new Color(0x333333));
-        btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnLogin = new JButton("Đăng nhập");
+        btnLogin.setBounds(180, 230, 100, 30);
+        btnLogin.setBackground(new Color(0x0057AD));
+        btnLogin.setForeground(Color.WHITE);
+        btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 12));
         btnLogin.setFocusPainted(false);
         btnLogin.setBorderPainted(false);
         btnLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnLogin.addActionListener(evt -> btnLoginActionPerformed(evt));
+        btnLogin.addActionListener(this::btnLoginActionPerformed);
 
-        btnExit = new JButton("THOÁT");
-        btnExit.setBounds(200, 230, 100, 35);
-        btnExit.setBackground(new Color(0x0057AD));
+        btnExit = new JButton("Thoát");
+        btnExit.setBounds(290, 230, 60, 30);
+        btnExit.setBackground(Color.RED);
         btnExit.setForeground(Color.WHITE);
-        btnExit.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnExit.setFont(new Font("Segoe UI", Font.BOLD, 12));
         btnExit.setFocusPainted(false);
         btnExit.setBorderPainted(false);
         btnExit.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnExit.addActionListener(evt -> btnExitActionPerformed(evt));
+        btnExit.addActionListener(this::btnExitActionPerformed);
 
         add(titleLabel);
         add(userLabel);
         add(txtUsername);
         add(passLabel);
         add(txtPassword);
+        add(roleLabel);
         add(cmbRole);
         add(btnLogin);
         add(btnExit);
@@ -75,12 +90,11 @@ public class LoginForm extends javax.swing.JFrame {
         String user = txtUsername.getText().trim();
         String pass = new String(txtPassword.getPassword());
         String role = cmbRole.getSelectedItem().toString();
-
         if (role.equals("Nhân viên") && "nv1".equals(user) && "123".equals(pass)) {
-            new NhanVienForm().setVisible(true);
+            new NhanVienForm(mockNhanVien, (MockGiaoDichService) giaoDichService).setVisible(true);
             this.dispose();
         } else if (role.equals("Quản trị viên") && "admin".equals(user) && "admin".equals(pass)) {
-            new QuanTriForm().setVisible(true);
+            new QuanTriForm(quanTriService).setVisible(true);
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu!", "Lỗi", JOptionPane.ERROR_MESSAGE);

@@ -36,5 +36,9 @@ public class NhanVien extends NguoiDung {
     public void setCaLamViec(String caLamViec) {
         this.caLamViec = caLamViec;
     }
+
+    public String getChucVu() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
 

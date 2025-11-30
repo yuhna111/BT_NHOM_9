@@ -27,7 +27,12 @@ public class GiaoDichServiceImpl implements GiaoDichService {
 
     private final GiaoDichRepo giaoDichRepo = new GiaoDichDao();
     private final TheXeRepo theXeRepo = new TheXeDao();
-    private final BangGiaRepo bangGiaRepo = new BangGiaDao();
+    private final BangGiaRepo bangGiaRepo = new BangGiaDao() {
+        @Override
+        public boolean update(BangGia bangGia) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+    };
     private final PhuongTienRepo phuongTienRepo = new PhuongTienDao();
 
     @Override

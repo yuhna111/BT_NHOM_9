@@ -14,4 +14,6 @@ public interface BangGiaRepo {
     BangGia findByMaMucGia(String maMucGia);
     List<BangGia> findAll();
     boolean updateGiaCoBan(String maMucGia, double giaMoi);
+
+    public boolean update(BangGia bangGia);
 }

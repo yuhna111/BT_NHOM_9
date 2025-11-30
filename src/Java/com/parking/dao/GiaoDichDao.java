@@ -24,7 +24,12 @@ import java.sql.*;
 public class GiaoDichDao implements GiaoDichRepo {
     private final TheXeRepo theXeRepo = new TheXeDao();
     private final NhanVienRepo nhanVienRepo = new NhanVienDao();
-    private final BangGiaRepo bangGiaRepo = new BangGiaDao();
+    private final BangGiaRepo bangGiaRepo = new BangGiaDao() {
+        @Override
+        public boolean update(BangGia bangGia) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+    };
     private final PhuongTienRepo phuongTienRepo = new PhuongTienDao();
 
     private static final String INSERT_SQL = 

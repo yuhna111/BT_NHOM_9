@@ -1,21 +1,28 @@
 package gui;
 
-import com.parking.BangGia;
+import com.parking.model.BangGia;
+import service.MockQuanTriService;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Logger;
 
 public class QuanTriForm extends javax.swing.JFrame {
+    private final MockQuanTriService quanTriService;
+    private static final Logger LOGGER = Logger.getLogger(QuanTriForm.class.getName());
+    private JButton btnXemDoanhThu;
+    private JComboBox<String> cmbLoaiGia;
+    private JTextField txtGiaMoi;
+    private JButton btnCapNhat;
+    private JButton btnDangXuat;
 
-    public static double tongDoanhThu = 0.0;
-    public static int tongSoXeDaXuLy = 0;
-
-    public QuanTriForm() {
+    public QuanTriForm(MockQuanTriService quanTriService) {
+        this.quanTriService = quanTriService;
         initComponents();
         setLocationRelativeTo(null);
     }
-
+    
     private void initComponents() {
         setTitle("QUẢN TRỊ VIÊN");
         setResizable(false);
@@ -37,11 +44,7 @@ public class QuanTriForm extends javax.swing.JFrame {
         btnXemDoanhThu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                String report = String.format(
-                    "Doanh thu hôm nay: %,.0f VNĐ\nTổng xe đã xử lý: %d lượt",
-                    tongDoanhThu, tongSoXeDaXuLy
-                );
-                showCustomMessage(report);
+                btnXemDoanhThuActionPerformed(evt);
             }
         });
 
@@ -68,17 +71,7 @@ public class QuanTriForm extends javax.swing.JFrame {
         btnCapNhat.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                String loai = cmbLoaiGia.getSelectedItem().toString();
-                try {
-                    double gia = Double.parseDouble(txtGiaMoi.getText().trim());
-                    if (gia <= 0) throw new NumberFormatException();
-                    
-                    BangGia.capNhatGiaTheoLoai(loai, gia);
-                    
-                    showCustomMessage("Đã cập nhật giá cho " + loai + ": " + (int) gia + " VNĐ/giờ");
-                } catch (NumberFormatException ex) {
-                    showCustomMessage("Vui lòng nhập giá hợp lệ!");
-                }
+                btnCapNhatActionPerformed(evt);
             }
         });
 
@@ -93,8 +86,7 @@ public class QuanTriForm extends javax.swing.JFrame {
         btnDangXuat.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                new LoginForm().setVisible(true);
-                QuanTriForm.this.dispose();
+                System.exit(0); 
             }
         });
 
@@ -110,8 +102,47 @@ public class QuanTriForm extends javax.swing.JFrame {
         setLayout(null);
         setSize(400, 350);
     }
-
     
+    private void btnXemDoanhThuActionPerformed(ActionEvent evt) {
+        try {
+            double revenue = quanTriService.tinhTongDoanhThu();
+            String report = String.format(
+                "Tổng Doanh thu hệ thống: %,.0f VNĐ",
+                revenue
+            );
+            
+            showCustomMessage(report);
+            
+        } catch (Exception e) {
+            LOGGER.severe("Lỗi khi xem báo cáo doanh thu: " + e.getMessage());
+            showCustomMessage("Lỗi khi tải báo cáo doanh thu. Vui lòng kiểm tra log.");
+        }
+    }
+
+    private void btnCapNhatActionPerformed(ActionEvent evt) {
+        String loai = cmbLoaiGia.getSelectedItem().toString();
+        try {
+            double gia = Double.parseDouble(txtGiaMoi.getText().trim());
+            if (gia <= 0) {
+                throw new NumberFormatException();
+            }
+            BangGia bg = new BangGia("TMP_ID", loai, gia); 
+            boolean success = quanTriService.capNhatBangGia(bg);          
+            if (success) {
+                showCustomMessage("Đã cập nhật giá cho " + loai + ": " + (int) gia + " VNĐ/giờ");
+                txtGiaMoi.setText("");
+            } else {
+                showCustomMessage("Cập nhật giá thất bại! Vui lòng kiểm tra Log.");
+            }
+            
+        } catch (NumberFormatException ex) {
+            showCustomMessage("Vui lòng nhập giá hợp lệ (số dương)!");
+        } catch (Exception e) {
+            LOGGER.severe("Lỗi khi cập nhật bảng giá: " + e.getMessage());
+            showCustomMessage("Lỗi hệ thống khi cập nhật giá.");
+        }
+    }
+
     private void showCustomMessage(String message) {
         JDialog dialog = new JDialog(this, "Thông báo", true);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -120,16 +151,14 @@ public class QuanTriForm extends javax.swing.JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
         panel.setBackground(Color.WHITE);
         
-       
         JTextArea lblMessage = new JTextArea(message);
         lblMessage.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         lblMessage.setForeground(new Color(0x333333));
         lblMessage.setEditable(false);
-        lblMessage.setLineWrap(true); // TỰ ĐỘNG XUỐNG DÒNG
-        lblMessage.setWrapStyleWord(true); // NGẮT TỪ
+        lblMessage.setLineWrap(true); 
+        lblMessage.setWrapStyleWord(true); 
         lblMessage.setOpaque(false);
         lblMessage.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        
         
         lblMessage.setCaretPosition(0);
         Dimension preferredSize = lblMessage.getPreferredSize();
@@ -157,14 +186,8 @@ public class QuanTriForm extends javax.swing.JFrame {
         panel.add(btnPanel, BorderLayout.SOUTH);
         
         dialog.add(panel);
-        dialog.pack();  
+        dialog.pack(); 
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }
-
-    private JButton btnXemDoanhThu;
-    private JComboBox<String> cmbLoaiGia;
-    private JTextField txtGiaMoi;
-    private JButton btnCapNhat;
-    private JButton btnDangXuat;
 }
