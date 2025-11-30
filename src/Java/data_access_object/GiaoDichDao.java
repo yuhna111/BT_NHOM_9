@@ -27,7 +27,7 @@ public class GiaoDichDao implements GiaoDichRepo {
     private final BangGiaRepo bangGiaRepo = new BangGiaDao() {
         @Override
         public boolean update(BangGia bangGia) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            throw new UnsupportedOperationException("Not supported yet."); 
         }
     };
     private final PhuongTienRepo phuongTienRepo = new PhuongTienDao();
@@ -45,8 +45,7 @@ public class GiaoDichDao implements GiaoDichRepo {
         boolean rowInserted = false;
         try (Connection conn = DBConnectionUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(INSERT_SQL)) {
-            
-            // ... (Logic ánh xạ dữ liệu không đổi) ...
+
             ps.setString(1, gd.getMaGiaoDich());
             ps.setTimestamp(2, Timestamp.valueOf(gd.getThoiGianVao()));
             ps.setString(3, gd.getTrangThaiThanhToan());
@@ -67,8 +66,7 @@ public class GiaoDichDao implements GiaoDichRepo {
         boolean rowUpdated = false;
         try (Connection conn = DBConnectionUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(UPDATE_SQL)) {
-            
-            // ... (Logic cập nhật dữ liệu không đổi) ...
+
             ps.setTimestamp(1, Timestamp.valueOf(gd.getThoiGianRa()));
             ps.setDouble(2, gd.getPhiDoXe()); 
             ps.setString(3, gd.getTrangThaiThanhToan()); 
