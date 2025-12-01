@@ -157,7 +157,7 @@ Chứa các lớp giao diện Java Swing và xử lý sự kiện người dùng
 |-----|--------------|---------------------|-----------------------------------|
 | 1   | B23DCVT209   | Nguyễn An Huy       | 👑 Nhóm Trưởng / Back-end + DB    |
 | 2   | B23DCVT041   | Hồ Trọng Bách       | 💻 Lập trình viên Back-end        |
-| 3   | B23DCVT041   | Chu Ngọc Giang      | 💻 Lập trình viên Back-end        |
+| 3   | B23DCCN253   | Chu Ngọc Giang      | 💻 Lập trình viên Back-end        |
 | 4   | B23DCDT001   | Lê Hữu Trường An    | 🎨 Lập trình viên Front-end (UI)  |
 | 5   | B23DCVT257   | Nguyễn Thành Long   | 🎨 Lập trình viên Front-end (UI)  |
 
