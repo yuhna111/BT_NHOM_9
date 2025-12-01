@@ -15,7 +15,6 @@ import Service.QuanTriService;
 import Service.GiaoDichServiceImpl;
 import Service.NhanVienServiceImpl;
 import Service.QuanTriServiceImpl;
-
 import javax.swing.*;
 
 public class Main {
@@ -34,3 +33,4 @@ public class Main {
         });
     }
 }
+
