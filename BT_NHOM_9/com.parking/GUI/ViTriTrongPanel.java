@@ -9,43 +9,50 @@ package GUI;
  * @author yuhna
  */
 import Model.ViTriDo;
-import Repository.ViTriDoRepository;
-
+import Service.ViTriDoService;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
 public class ViTriTrongPanel extends JPanel {
-    private MainFrame parent;
+    private final MainFrame parent;
+    private final ViTriDoService viTriDoService;
 
-    public ViTriTrongPanel(MainFrame parent) {
+    public ViTriTrongPanel(MainFrame parent, ViTriDoService viTriDoService) {
         this.parent = parent;
+        this.viTriDoService = viTriDoService;
+        initUI();
+    }
+
+    private void initUI() {
         setLayout(new BorderLayout());
+        setBackground(Color.WHITE);
+
+        JLabel lblTitle = new JLabel("Danh sách vị trí trống", JLabel.CENTER);
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblTitle.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        add(lblTitle, BorderLayout.NORTH);
 
         DefaultTableModel model = new DefaultTableModel(
-            new Object[]{"Mã vị trí", "Loại", "Trạng thái", "Khu vực"}, 0
+            new String[]{"Mã vị trí", "Loại", "Trạng thái", "Khu vực"}, 0
         );
-        JTable table = new JTable(model);
 
-        // Tải dữ liệu
-        ViTriDoRepository repo = new ViTriDoRepository();
-        List<ViTriDo> list = repo.findAll();
+        JTable table = new JTable(model);
+        table.setFillsViewportHeight(true);
+        table.getTableHeader().setReorderingAllowed(false);
+
+        List<ViTriDo> list = viTriDoService.getAllViTriTrong(); 
+
         for (ViTriDo vt : list) {
-            if ("Trống".equals(vt.getTrangThai())) {
-                model.addRow(new Object[]{
-                    vt.getMaViTri(),
-                    vt.getLoaiCho(),
-                    vt.getTrangThai(),
-                    vt.getMaKhuVuc()
-                });
-            }
+            model.addRow(new Object[]{
+                vt.getMaViTri(),
+                vt.getLoaiCho(),
+                vt.getTrangThai(),
+                vt.getMaKhuVuc() == null ? "—" : vt.getMaKhuVuc()
+            });
         }
 
         add(new JScrollPane(table), BorderLayout.CENTER);
-
-        JButton btnBack = new JButton("Quay lại");
-        btnBack.addActionListener(e -> parent.showPanel("list"));
-        add(btnBack, BorderLayout.SOUTH);
     }
 }
