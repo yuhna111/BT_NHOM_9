@@ -108,13 +108,14 @@ Chứa các Data Access Object xử lý giao tiếp DB bằng JDBC.
 ### 5. 🖥️ `Java.gui` – Tầng Presentation (UI/Controller)
 Chứa các lớp giao diện Java Swing và xử lý sự kiện người dùng.  
 **Files:**  
-- `LoginForm.java`  
-- `NhanVienForm.java`  
-- `QuanTriForm.java`  
-- `BaoCaoForm.java`
+- `LoginFrame.java`  
+- `MainFrame.java`  
+- `GiaoDichListPanel.java`  
+- `TaoGiaoDichPanel.java`
+- `ViTriTrongPanel.java`
 
 ### 6. ▶️ `Java.Main` – Lớp Khởi chạy chính
-- `MainApp.java` – Khởi tạo Service và chạy `LoginForm`
+- `MainApp.java` – Khởi tạo Service và chạy `LoginFrame`
 
 ---
 
