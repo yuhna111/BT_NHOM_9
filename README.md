@@ -87,20 +87,24 @@ Chứa các lớp Entity (POJO) ánh xạ trực tiếp từ các bảng DB và 
 ### 2. 💾 `Java.repository` – Tầng Repository / DAO
 Chứa các Data Access Object xử lý giao tiếp DB bằng JDBC.  
 **Files:**  
-- `GiaoDichRepository.java`  
+- `GiaoDichRepository.java`
+- `BaiDoRepository.java`  
 - `TheXeRepository.java`  
 - `NhanVienRepository.java`  
 - `BangGiaRepository.java`  
 - `ViTriDoRepository.java`, v.v.
 
 ### 3. 💼 `Java.service` – Tầng Service (Logic nghiệp vụ)
-Định nghĩa và triển khai logic nghiệp vụ (ví dụ: `kiemTraXeVao()`, `tinhPhi()`).  
+Định nghĩa và triển khai logic nghiệp vụ. 
 **Files:**  
-- `GiaoDichService.java` (Interface)  
+- `GiaoDichService.java` 
 - `GiaoDichServiceImpl.java`  
-- `NhanVienService.java`, `QuanTriService.java`  
+- `NhanVienService.java`
+- `NhanVienServiceImpl.java`  
+- `QuanTriService.java`
+- `QuanTriServiceImpl.java`  
 - `TheXeService.java`  
-- `MockGiaoDichService.java` (dùng cho môi trường dev)
+- `TheXeServiceImpl.java` 
 
 ### 4. ⚙️ `Java.config`
 - `DBConnectionUtil.java` – Quản lý kết nối cơ sở dữ liệu
