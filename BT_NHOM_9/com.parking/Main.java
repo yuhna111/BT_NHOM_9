@@ -8,7 +8,14 @@ package Main;
  *
  * @author yuhna
  */
-import GUI.MainFrame;
+import GUI.LoginFrame;
+import Service.GiaoDichService;
+import Service.NhanVienService;
+import Service.QuanTriService;
+import Service.GiaoDichServiceImpl;
+import Service.NhanVienServiceImpl;
+import Service.QuanTriServiceImpl;
+
 import javax.swing.*;
 
 public class Main {
@@ -16,10 +23,14 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            new MainFrame().setVisible(true);
+            } catch (Exception ignored) {}
+
+            var loginFrame = new LoginFrame(
+                new GiaoDichServiceImpl(),
+                new NhanVienServiceImpl(),
+                new QuanTriServiceImpl()
+            );
+            loginFrame.setVisible(true); 
         });
     }
 }
