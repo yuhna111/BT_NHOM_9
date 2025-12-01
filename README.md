@@ -62,11 +62,11 @@ Tập trung vào quản lý hệ thống và báo cáo.
 
 ## 📂 CẤU TRÚC DỰ ÁN (Project Structure)
 
-src/ └── com/parking/ 
+src/ └── Java/ 
 ├── model/ # 1. Tầng Model (Entity) 
 ├── repository/ # 2. Tầng Repository/DAO 
 ├── service/ # 3. Tầng Service (Logic nghiệp vụ) 
-└── util/ # Tầng Hỗ trợ/Tiện ích └── gui/ # 4. Tầng Presentation (UI/Controller) 
+└── config/ # Tầng Hỗ trợ/Tiện ích └── gui/ # 4. Tầng Presentation (UI/Controller) 
 └── Main/ # 5. Lớp Khởi chạy chính
 
 ### 1. 📦 `com.parking.model` (Tầng Model - Entities)
