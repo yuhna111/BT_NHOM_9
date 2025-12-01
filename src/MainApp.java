@@ -1,25 +1,21 @@
-package Main; 
+package Main;
+/**
+ *
+ * @author yuhna
+ */
+import GUI.LoginFrame;
+import javax.swing.*;
 
-import gui.LoginForm;
-import service.MockGiaoDichService;
-import service.MockQuanTriService;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
-public class MainApp {
-
+public class Main {
     public static void main(String[] args) {
-        MockGiaoDichService mockGiaoDich = new MockGiaoDichService();
-        MockQuanTriService mockQuanTri = new MockQuanTriService();
         SwingUtilities.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            LoginForm loginForm = new LoginForm(mockGiaoDich, mockQuanTri);
-            loginForm.setVisible(true);
+            new LoginFrame().setVisible(true);
         });
     }
-
 }
+
