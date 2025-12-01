@@ -168,7 +168,6 @@ Chứa các lớp giao diện Java Swing và xử lý sự kiện người dùng
 | Nguyên tắc               | Mô tả chi tiết |
 |--------------------------|----------------|
 | **Dependency Injection** | Các tầng GUI (Form) chỉ tương tác với các tầng Service thông qua Constructor (ví dụ: `new LoginForm(service)`), không tự tạo Service bên trong. |
-| **Lớp Mock**             | Sử dụng `MockGiaoDichService` để tách biệt việc phát triển UI khỏi Database thật, giúp tăng tốc độ phát triển và dễ kiểm thử. |
 | **Kiểu dữ liệu Thời gian** | Sử dụng `java.time.LocalDateTime` thay cho `java.util.Date` hoặc `Timestamp` để xử lý thời gian chính xác và hiện đại hơn. |
 
 ### 🛠️ Các Lỗi Thường Gặp
