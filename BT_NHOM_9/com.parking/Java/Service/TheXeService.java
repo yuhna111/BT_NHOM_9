@@ -13,4 +13,6 @@ public interface TheXeService {
     TheXe dangKiTheXe(String maThe, String loaiThe, String maKhachHang);
     void khoaThe(String maThe);
     void moKhoaThe(String maThe);
+    TheXe getTheXeByMa(String maThe);
 }
+
