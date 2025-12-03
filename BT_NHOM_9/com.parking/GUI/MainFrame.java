@@ -11,35 +11,40 @@ package GUI;
 import Service.GiaoDichService;
 import Service.NhanVienService;
 import Service.QuanTriService;
-import Service.ViTriDoServiceImpl;
+import Service.TheXeService;
+import Service.ViTriDoService; 
 import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends JFrame {
     private CardLayout cardLayout;
     private JPanel mainPanel;
-
     private final GiaoDichService giaoDichService;
     private final NhanVienService nhanVienService;
     private final QuanTriService quanTriService;
-    private final String role; 
+    private final ViTriDoService viTriDoService; 
+    private final TheXeService theXeService;
+    private final String role;
 
     public MainFrame(
-        String role,
-        GiaoDichService giaoDichService,
-        NhanVienService nhanVienService,
-        QuanTriService quanTriService
-    ) {
-        this.role = role;
-        this.giaoDichService = giaoDichService;
-        this.nhanVienService = nhanVienService;
-        this.quanTriService = quanTriService;
-
-        initUI();
-    }
+    String role,
+    GiaoDichService gds,
+    NhanVienService nvs,
+    QuanTriService qts,
+    ViTriDoService vts,
+    TheXeService txs
+) {
+    this.role = role;
+    this.giaoDichService = gds;
+    this.nhanVienService = nvs;
+    this.quanTriService = qts;
+    this.viTriDoService = vts;
+    this.theXeService = txs;
+    initUI();
+}
 
     private void initUI() {
-        String title = "Quan Ly Bai Do Xe - " + ("admin".equals(role) ? "Quản Trị Viên" : "Nhân Viên");
+        String title = "Quản lý Bãi đỗ xe - " + ("admin".equals(role) ? "Quản trị viên" : "Nhân viên");
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(950, 650);
@@ -49,9 +54,10 @@ public class MainFrame extends JFrame {
         mainPanel = new JPanel(cardLayout);
         mainPanel.setBackground(Color.WHITE);
 
+
         GiaoDichListPanel listPanel = new GiaoDichListPanel(this, giaoDichService, nhanVienService);
-        TaoGiaoDichPanel taoPanel = new TaoGiaoDichPanel(this, giaoDichService, nhanVienService);
-        ViTriTrongPanel vitriPanel = new ViTriTrongPanel(this, new ViTriDoServiceImpl());
+        TaoGiaoDichPanel taoPanel = new TaoGiaoDichPanel(this, giaoDichService, nhanVienService, theXeService);
+        ViTriTrongPanel vitriPanel = new ViTriTrongPanel(this, viTriDoService); 
 
         mainPanel.add(listPanel, "list");
         mainPanel.add(taoPanel, "tao");
@@ -59,10 +65,9 @@ public class MainFrame extends JFrame {
 
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("Chức năng");
-        
-        JMenuItem menuItem1 = new JMenuItem("Danh Sách Giao Dịch");
+        JMenuItem menuItem1 = new JMenuItem("Danh sách giao dịch");
         JMenuItem menuItem2 = new JMenuItem("Tạo giao dịch mới");
-        JMenuItem menuItem3 = new JMenuItem("Vị Trí Trống");
+        JMenuItem menuItem3 = new JMenuItem("Vị trí trống");
 
         menuItem1.addActionListener(e -> showPanel("list"));
         menuItem2.addActionListener(e -> showPanel("tao"));
