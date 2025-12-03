@@ -1,0 +1,23 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Service;
+
+/**
+ *
+ * @author yuhna
+ */
+import Model.BangGia;
+import Repository.BangGiaRepository;
+import Service.BangGiaService;
+
+public class BangGiaServiceImpl implements BangGiaService {
+    private final BangGiaRepository repo = new BangGiaRepository();
+
+    @Override
+    public double getGiaTheoMa(String maMucGia) {
+        BangGia bg = repo.findByMa(maMucGia);
+        return null != bg ? bg.getGiaTienCoBan() : -1;
+    }
+}
