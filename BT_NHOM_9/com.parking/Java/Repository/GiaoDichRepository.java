@@ -7,8 +7,7 @@ package Repository;
 /**
  *
  * @author yuhna
- */// src/Java/repository/GiaoDichRepository.java
-
+ */
 import Model.GiaoDich;
 import config.DBConnectionUtil;
 import java.sql.*;
@@ -17,8 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GiaoDichRepository {
-
-    public void save(GiaoDich gd) {
+    public void insert(GiaoDich gd) {
         String sql = """
             INSERT INTO giaodich 
             (maGiaoDich, thoiGianVao, thoiGianRa, phiDoXe, trangThaiThanhToan, 
@@ -44,26 +42,79 @@ public class GiaoDichRepository {
         }
     }
 
-    public List<GiaoDich> findAll() {
-        List<GiaoDich> list = new ArrayList<>();
-        String sql = "SELECT * FROM giaodich";
+    public void update(GiaoDich gd) {
+        String sql = """
+            UPDATE giaodich 
+            SET thoiGianRa = ?, phiDoXe = ?, trangThaiThanhToan = ?
+            WHERE maGiaoDich = ?
+            """;
         try (Connection conn = DBConnectionUtil.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            while (rs.next()) {
+            ps.setTimestamp(1, Timestamp.valueOf(gd.getThoiGianRa()));
+            ps.setDouble(2, gd.getPhiDoXe());
+            ps.setString(3, gd.getTrangThaiThanhToan());
+            ps.setString(4, gd.getMaGiaoDich());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public GiaoDich findByMa(String maGiaoDich) {
+        String sql = "SELECT * FROM giaodich WHERE maGiaoDich = ?";
+        try (Connection conn = DBConnectionUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, maGiaoDich);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
                 GiaoDich gd = new GiaoDich();
                 gd.setMaGiaoDich(rs.getString("maGiaoDich"));
                 gd.setThoiGianVao(rs.getTimestamp("thoiGianVao").toLocalDateTime());
-                if (rs.getTimestamp("thoiGianRa") != null) {
-                    gd.setThoiGianRa(rs.getTimestamp("thoiGianRa").toLocalDateTime());
-                }
+
+                Timestamp tsRa = rs.getTimestamp("thoiGianRa");
+                gd.setThoiGianRa(tsRa != null ? tsRa.toLocalDateTime() : null);
+
                 gd.setPhiDoXe(rs.getDouble("phiDoXe"));
                 gd.setTrangThaiThanhToan(rs.getString("trangThaiThanhToan"));
                 gd.setMaMucGiaApDung(rs.getString("maMucGiaApDung"));
                 gd.setMaThe(rs.getString("maThe"));
                 gd.setMaNhanVien(rs.getString("maNhanVien"));
                 gd.setMaViTri(rs.getString("maViTri"));
+
+                return gd;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<GiaoDich> findAll() {
+        List<GiaoDich> list = new ArrayList<>();
+        String sql = "SELECT * FROM giaodich";
+        try (Connection conn = DBConnectionUtil.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                GiaoDich gd = new GiaoDich();
+                gd.setMaGiaoDich(rs.getString("maGiaoDich"));
+                gd.setThoiGianVao(rs.getTimestamp("thoiGianVao").toLocalDateTime());
+
+                Timestamp tsRa = rs.getTimestamp("thoiGianRa");
+                gd.setThoiGianRa(tsRa != null ? tsRa.toLocalDateTime() : null);
+
+                gd.setPhiDoXe(rs.getDouble("phiDoXe"));
+                gd.setTrangThaiThanhToan(rs.getString("trangThaiThanhToan"));
+                gd.setMaMucGiaApDung(rs.getString("maMucGiaApDung"));
+                gd.setMaThe(rs.getString("maThe"));
+                gd.setMaNhanVien(rs.getString("maNhanVien"));
+                gd.setMaViTri(rs.getString("maViTri"));
+
                 list.add(gd);
             }
         } catch (SQLException e) {
