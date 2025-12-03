@@ -14,4 +14,5 @@ public interface GiaoDichService {
     GiaoDich taoGiaoDichMoi(String maThe, String maNhanVien, String maViTri);
     void ketThucGiaoDich(String maGiaoDich);
     double tinhPhiDoXe(String maGiaoDich);
+    java.util.List<GiaoDich> getAllGiaoDich();
 }
