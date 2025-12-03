@@ -8,7 +8,6 @@ package Repository;
  *
  * @author yuhna
  */
-// src/Java/repository/BangGiaRepository.java
 import Model.BangGia;
 import config.DBConnectionUtil;
 import java.sql.*;
