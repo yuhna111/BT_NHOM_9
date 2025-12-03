@@ -43,4 +43,8 @@ public class TheXeServiceImpl implements TheXeService {
             repo.save(the);
         }
     }
+    @Override
+    public TheXe getTheXeByMa(String maThe) {
+        return repo.findByMa(maThe);
+    }
 }
