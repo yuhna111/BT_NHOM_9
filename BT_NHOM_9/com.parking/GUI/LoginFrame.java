@@ -8,6 +8,8 @@ import Service.QuanTriService;
 import Service.GiaoDichServiceImpl;
 import Service.NhanVienServiceImpl;
 import Service.QuanTriServiceImpl;
+import Service.TheXeService;
+import Service.ViTriDoService;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,21 +22,27 @@ public class LoginFrame extends JFrame {
     private final GiaoDichService giaoDichService;
     private final NhanVienService nhanVienService;
     private final QuanTriService quanTriService;
+    private final ViTriDoService viTriDoService;
+    private final TheXeService theXeService;
 
    public LoginFrame(
         GiaoDichService gds,
         NhanVienService nvs,
-        QuanTriService qts
+        QuanTriService qts,
+        ViTriDoService vts,
+        TheXeService txs
     ) {
         this.giaoDichService = gds;
         this.nhanVienService = nvs;
         this.quanTriService = qts;
+        this.viTriDoService = vts;
+        this.theXeService = txs;
         initUI();
     }
   
 
     private void initUI() {
-        setTitle("?Đăng nhập Hệ Thống");
+        setTitle("ÄÄƒng nháº­p Há»‡ Thá»‘ng");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(420, 320);
         setLocationRelativeTo(null);
@@ -44,7 +52,7 @@ public class LoginFrame extends JFrame {
         mainPanel.setBackground(new Color(248, 249, 250));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        JLabel lblTitle = new JLabel("HỆ THỐNG QUẢN LÝ BÃI ĐỖ XE", JLabel.CENTER);
+        JLabel lblTitle = new JLabel("Há»† THá»NG QUáº¢N LÃ BÃƒI Äá»– XE", JLabel.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 18));
         lblTitle.setForeground(new Color(33, 37, 41));
         lblTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 25, 0));
@@ -53,7 +61,7 @@ public class LoginFrame extends JFrame {
         formPanel.setBackground(new Color(248, 249, 250));
         formPanel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 30));
 
-        JLabel lblUser = new JLabel("Tài khoản:");
+        JLabel lblUser = new JLabel("TÃ i khoáº£n:");
         lblUser.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         txtUser = new JTextField(15);
         txtUser.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -62,7 +70,7 @@ public class LoginFrame extends JFrame {
             BorderFactory.createEmptyBorder(5, 10, 5, 10)
         ));
 
-        JLabel lblPass = new JLabel("Mật khẩu:");
+        JLabel lblPass = new JLabel("Máº­t kháº©u:");
         lblPass.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         txtPass = new JPasswordField(15);
         txtPass.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -82,7 +90,7 @@ public class LoginFrame extends JFrame {
         formPanel.add(new JLabel());
         formPanel.add(lblError);
 
-        JButton btnLogin = new JButton("Đăng nhập");
+        JButton btnLogin = new JButton("ÄÄƒng nháº­p");
         btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnLogin.setBackground(new Color(40, 167, 69));
         btnLogin.setForeground(Color.WHITE);
@@ -112,7 +120,7 @@ public class LoginFrame extends JFrame {
         lblError.setText("");
 
         if (username.isEmpty() || password.isEmpty()) {
-            lblError.setText("Vui lòng nhập đủ thông tin!");
+            lblError.setText("Vui lÃ²ng nháº­p Ä‘á»§ thÃ´ng tin!");
             return;
         }
 
@@ -120,20 +128,18 @@ public class LoginFrame extends JFrame {
         NguoiDung nd = repo.findByUsername(username);
 
         if (nd == null || !nd.getMatKhau().equals(password)) {
-            lblError.setText("Sai tài khoản hoặc mật khẩu!");
+            lblError.setText("Sai tÃ i khoáº£n hoáº·c máº­t kháº©u!");
             return;
         }
 
         String maND = nd.getMaNguoiDung();
         if (repo.isQuanTriVien(maND)) {
             dispose();
-            new MainFrame("admin", giaoDichService, nhanVienService, quanTriService).setVisible(true);
-        } else if (repo.isNhanVien(maND)) {
-            dispose();
-            new MainFrame("nv1", giaoDichService, nhanVienService, quanTriService).setVisible(true);
-        } else {
-            lblError.setText("Tài khoản không có quyền truy cập hệ thống!");
+            new MainFrame("admin", giaoDichService, nhanVienService, quanTriService, viTriDoService, theXeService).setVisible(true);
+            } else if (repo.isNhanVien(maND)) {
+                dispose();
+                new MainFrame("nv1", giaoDichService, nhanVienService, quanTriService, viTriDoService, theXeService).setVisible(true);
+            }
         }
-    }
     }
 }
