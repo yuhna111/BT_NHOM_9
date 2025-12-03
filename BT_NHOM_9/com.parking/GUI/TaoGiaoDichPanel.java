@@ -9,28 +9,32 @@ package GUI;
  * @author yuhna
  */
 import Model.GiaoDich;
+import Model.TheXe;
 import Service.GiaoDichService;
 import Service.NhanVienService;
+import Service.TheXeService;
 import javax.swing.*;
 import java.awt.*;
 
 public class TaoGiaoDichPanel extends JPanel {
     private final GiaoDichService giaoDichService;
     private final NhanVienService nhanVienService;
+    private final TheXeService theXeService; 
     private final MainFrame parent;
-
     private JTextField txtMaThe = new JTextField(20);
     private JTextField txtMaNhanVien = new JTextField(20);
     private JTextField txtMaViTri = new JTextField(20);
-
+    
     public TaoGiaoDichPanel(
         MainFrame parent,
         GiaoDichService giaoDichService,
-        NhanVienService nhanVienService
+        NhanVienService nhanVienService,
+        TheXeService theXeService
     ) {
         this.parent = parent;
         this.giaoDichService = giaoDichService;
         this.nhanVienService = nhanVienService;
+        this.theXeService = theXeService;
         initUI();
     }
 
@@ -49,7 +53,7 @@ public class TaoGiaoDichPanel extends JPanel {
         form.add(new JLabel("Mã vị trí đỗ:"));
         form.add(txtMaViTri);
 
-        JButton btnTao = new JButton("Tạo giao dịch");
+        JButton btnTao = new JButton("Táº¡o giao dá»‹ch");
         btnTao.setFont(new Font("Segoe UI", Font.BOLD, 13));
         btnTao.setBackground(new Color(0, 123, 255));
         btnTao.setForeground(Color.WHITE);
@@ -72,7 +76,17 @@ public class TaoGiaoDichPanel extends JPanel {
         String maVT = txtMaViTri.getText().trim();
 
         if (maThe.isEmpty() || maNV.isEmpty() || maVT.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập đủ thông tin!", "Lỗi", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!", "Lỗi", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        TheXe theXe = theXeService.getTheXeByMa(maThe);
+        if (theXe == null) {
+            JOptionPane.showMessageDialog(this, "Mã thẻ xe không tồn tại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (!"Hoáº¡t Ä‘á»™ng".equals(theXe.getTrangThai())) {
+            JOptionPane.showMessageDialog(this, "Thẻ xe đã bị xóa hoặc không hợp lệ!", "Lỗi" JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -80,7 +94,7 @@ public class TaoGiaoDichPanel extends JPanel {
             GiaoDich gd = giaoDichService.taoGiaoDichMoi(maThe, maNV, maVT);
             JOptionPane.showMessageDialog(
                 this,
-                "Tạo giao dịch thành công!\nMã: " + gd.getMaGiaoDich(),
+                "Tạo giao dịch thành công!\Mã: " + gd.getMaGiaoDich(),
                 "Thành công",
                 JOptionPane.INFORMATION_MESSAGE
             );
@@ -89,7 +103,7 @@ public class TaoGiaoDichPanel extends JPanel {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(
                 this,
-                "Lỗi: " + ex.getMessage(),
+                "Lỗi khi tạo giao dịch: " + ex.getMessage(),
                 "Lỗi hệ thống",
                 JOptionPane.ERROR_MESSAGE
             );
