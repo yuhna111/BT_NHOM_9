@@ -67,53 +67,68 @@ public class GiaoDichListPanel extends JPanel {
     }
 
     private void loadGiaoDich() {
-        model.setRowCount(0);
-        java.util.List<GiaoDich> list = giaoDichService.getAllGiaoDich(); 
+    model.setRowCount(0);
+    java.util.List<GiaoDich> list = giaoDichService.getAllGiaoDich();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    for (GiaoDich gd : list) {
+        String thoiGianVao = gd.getThoiGianVao() != null ? 
+            gd.getThoiGianVao().format(formatter) : "";
+        String thoiGianRa = gd.getThoiGianRa() != null ? 
+            gd.getThoiGianRa().format(formatter) : "Đang đỗ";
 
-        for (GiaoDich gd : list) {
-            String thoiGianVao = gd.getThoiGianVao() != null ? 
-                gd.getThoiGianVao().format(formatter) : "";
-            String thoiGianRa = gd.getThoiGianRa() != null ? 
-                gd.getThoiGianRa().format(formatter) : "Đang đỗ";
-
-            model.addRow(new Object[]{
-                gd.getMaGiaoDich(),
-                gd.getMaThe(),
-                thoiGianVao,
-                thoiGianRa,
-                gd.getPhiDoXe() > 0 ? String.format("%,.0f", gd.getPhiDoXe()) : "",
-                gd.getTrangThaiThanhToan() != null ? gd.getTrangThaiThanhToan() : "Chưa thanh toán"
-            });
-        }
+        String trangThaiHienThi = formatTrangThai(gd.getTrangThaiThanhToan());
+        model.addRow(new Object[]{
+            gd.getMaGiaoDich(),
+            gd.getMaThe(),
+            thoiGianVao,
+            thoiGianRa,
+            gd.getPhiDoXe() > 0 ? String.format("%,.0f", gd.getPhiDoXe()) : "",
+            trangThaiHienThi  
+        });
     }
+}
 
     private void handleKetThuc() {
-        int row = table.getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn giao dịch cần kết thúc!", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+    int row = table.getSelectedRow();
+    if (row == -1) {
+        JOptionPane.showMessageDialog(this, "Vui lòng chọn giao dịch cần kết thúc!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
 
-        String maGD = (String) model.getValueAt(row, 0);
-        int confirm = JOptionPane.showConfirmDialog(
-            this,
-            "Bạn có chắc muốn kết thúc giao dịch\nMã: " + maGD + "?",
-            "Xác nhận",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.QUESTION_MESSAGE
-        );
+    String maGD = (String) model.getValueAt(row, 0);
+    String trangThai = (String) model.getValueAt(row, 5); 
 
-        if (confirm == JOptionPane.YES_OPTION) {
-            try {
-                giaoDichService.ketThucGiaoDich(maGD);
-                loadGiaoDich();
-                JOptionPane.showMessageDialog(this, "Đã kết thúc giao dịch và cập nhật cơ sở dữ liệu!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Lỗi khi kết thúc giao dịch: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-            }
+    if ("Đã thanh toán".equals(trangThai)) {
+        JOptionPane.showMessageDialog(this, "Giao dịch này đã được thanh toán!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        return;
+    }
+
+    int confirm = JOptionPane.showConfirmDialog(
+        this,
+        "Bạn có chắc muốn kết thúc giao dịch\nMã: " + maGD + "?",
+        "Xác nhận",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE
+    );
+
+    if (confirm == JOptionPane.YES_OPTION) {
+        try {
+            giaoDichService.ketThucGiaoDich(maGD);
+            loadGiaoDich();
+
+            JOptionPane.showMessageDialog(this, "Đã kết thúc giao dịch và cập nhật cơ sở dữ liệu!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Lỗi khi kết thúc giao dịch: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
+    }
+}
+
+    private String formatTrangThai(String trangThai) {
+        if (trangThai == null || trangThai.trim().isEmpty()) {
+            return "Chưa thanh toán";
+        }
+        return "Đã thanh toán".equals(trangThai) ? "Đã thanh toán" : trangThai;
     }
 }
