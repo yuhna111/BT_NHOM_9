@@ -28,10 +28,14 @@ public class GiaoDichServiceImpl implements GiaoDichService {
         repo.save(gd);
         return gd;
     }
-
+    
+    @Override
+    public java.util.List<GiaoDich> getAllGiaoDich() {
+        return repo.findAll();
+    }
+    
     @Override
     public void ketThucGiaoDich(String maGiaoDich) {
-
     }
 
     @Override
@@ -40,3 +44,4 @@ public class GiaoDichServiceImpl implements GiaoDichService {
         return 20000.0;
     }
 }
+
