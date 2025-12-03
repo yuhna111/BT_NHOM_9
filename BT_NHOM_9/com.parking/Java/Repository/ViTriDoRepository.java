@@ -74,4 +74,24 @@ public class ViTriDoRepository {
         }
         return list;
     }
+    public List<ViTriDo> findTrong() {
+        List<ViTriDo> list = new ArrayList<>();
+        String sql = "SELECT * FROM vitrido WHERE trangThai = 'Trống'";
+        try (Connection conn = DBConnectionUtil.getConnection();
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql)) {
+
+        while (rs.next()) {
+            ViTriDo vt = new ViTriDo();
+            vt.setMaViTri(rs.getString("maViTri"));
+            vt.setTrangThai(rs.getString("trangThai"));
+            vt.setLoaiCho(rs.getString("loaiCho"));
+            vt.setMaKhuVuc(rs.getString("maKhuVuc"));
+            list.add(vt);
+        }
+    } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
