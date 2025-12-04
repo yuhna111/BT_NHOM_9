@@ -9,28 +9,41 @@ package Main;
  * @author yuhna
  */
 import GUI.LoginFrame;
+import Service.BangGiaService;
+import Service.BangGiaServiceImpl;
 import Service.GiaoDichService;
-import Service.NhanVienService;
-import Service.QuanTriService;
 import Service.GiaoDichServiceImpl;
+import Service.NhanVienService;
 import Service.NhanVienServiceImpl;
+import Service.QuanTriService;
 import Service.QuanTriServiceImpl;
+import Service.TheXeService;
+import Service.TheXeServiceImpl;
+import Service.ViTriDoService;
+import Service.ViTriDoServiceImpl;
+
 import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (Exception ignored) {}
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-            var loginFrame = new LoginFrame(
-                new GiaoDichServiceImpl(),
-                new NhanVienServiceImpl(),
-                new QuanTriServiceImpl()
-            );
-            loginFrame.setVisible(true); 
+        SwingUtilities.invokeLater(() -> {
+            BangGiaService bangGiaService = new BangGiaServiceImpl();
+            GiaoDichService gds = new GiaoDichServiceImpl(bangGiaService);
+            NhanVienService nvs = new NhanVienServiceImpl();
+            QuanTriService qts = new QuanTriServiceImpl();
+            ViTriDoService vts = new ViTriDoServiceImpl();
+            TheXeService txs = new TheXeServiceImpl();
+
+            LoginFrame loginFrame = new LoginFrame(gds, nvs, qts, vts, txs);
+            loginFrame.setVisible(true);
         });
     }
 }
+
 
