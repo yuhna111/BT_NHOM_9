@@ -36,7 +36,7 @@ VALUES
 ('VT01', 'Đang dùng', 'Xe máy', 'KV01'),  
 ('VT02', 'Trống',     'Xe máy', 'KV01'),  
 ('VT03', 'Trống',     'Xe máy', 'KV01');  
--- Vị trí Ô TÔ
+
 INSERT INTO vitrido (maViTri, trangThai, loaiCho, maKhuVuc) 
 VALUES 
 ('VT04', 'Trống',     'Ô tô',   'KV01'),  
